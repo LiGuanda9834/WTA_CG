@@ -1,0 +1,11 @@
+Solution.o
+Node.o
+AlgorithmParameter.o
+WTA.o
+SubProblem.o
+Scene.o
+Pricing.o
+print.o
+Master.o
+Tree.o
+BranchAndCut.o

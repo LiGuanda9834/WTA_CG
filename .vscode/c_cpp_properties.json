@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/local/include",
+                "/soft/apps/gcc/gcc-10.2.0/include",
+                "/soft/apps/gcc/gcc-10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed",
+                "/usr/include"
+            ],
+            "defines": [],
+            "compilerPath": "/soft/apps/gcc/gcc-10.2.0/bin/gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
