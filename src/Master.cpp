@@ -14,19 +14,29 @@ Master::Master(
 // Use this to get information from the node
 void Master::Set(const Node &node) 
 {
-   // @todo Update this function
+   /**
+    * @brief Set the upper bound and the lower bound of all the scenes
+    * @todo Is this step neccessary
+   */
+
    for( int i = 0; i < (int)scenepool.size(); i++ )
    {
       const Scene &scene = scenepool[i];
-      if( node.valid(path) )
+      if( node.valid(scene) )
       {
-         if( y[i].getLB() != 0 || y[i].getUB() != 1 )
-            y[i].setBounds(0, 1);
+         if( lp->lb[i] != 0 || lp->ub[i] != 1 )
+         {
+            lp->lb[i] = 0;
+            lp->ub[i] = 1;
+         }
       }
       else
       {
-         if( y[i].getLB() != 0 || y[i].getUB() != 0 )
-            y[i].setBounds(0, 0);
+         if( lp->lb[i] != 0 || lp->ub[i] != 0 )
+         {
+            lp->lb[i] = 0;
+            lp->ub[i] = 0;
+         }
       }
    }
    printf("Master Problem has been Initialized \n");
@@ -39,12 +49,19 @@ void Master::Set(const Node &node)
 bool Master::Solve() 
 {
    numLp++;
+   lp->SOLVE_LP();
    bool result = true;
    return result;
 }
 
+// get all the Dual_Values from the lp, m + n
 void Master::GetDualValues(vector<double> &dual) 
 {
+   int N_Dual_sol = wta->target_num_n + wta->weapon_num_m;
+   for(int i = 0; i < N_Dual_sol; i++){
+      dual[i] = lp->opt_dual_sol[i];
+   }
+   return;
 }
 
 
@@ -57,22 +74,10 @@ void Master::AddCol(vector<Scene> &scenes)
    int scene_num = scenes.size();
    for(int i = 0; i < scene_num; i++){
       scenepool.add_scene(scenes[i]);
+      int Scene_id = scenepool.size();
+      lp->ADD_NEW_COLUMN(scenes[i], Scene_id);
    }
-
    // @Todo : Add Information to the LP
-   for( Path &path: paths )
-   {
-      auto pathId = pathpool.size();
-      IloNumColumn column(env);  
-      column += obj(path.cost);
-      for( int i = 1; i < (int)path.size(); i++ )
-      {
-         int p = path[i];
-         // column +=   
-      }
-      y.add(IloNumVar(column, 0, param.maxValue, ILOFLOAT, ("y"+std::to_string(pathId)).c_str()));
-   }
-
 }
 
 
@@ -103,12 +108,12 @@ LP_ALL_IN_ONE::LP_ALL_IN_ONE(int _N_rows, int _N_cols){
    N_cols = _N_cols;
    A = new vector<double>[N_rows];
    rhs = new double[N_rows];
-   opt_dual_sol = new double[N_rows];
+   opt_dual_sol = new double[N_rows + N_cols];
 
 
    cost = vector<double>(N_cols, 0);
    lb = vector<double>(N_cols, 0);
-   up = vector<double>(N_cols, 0);
+   ub = vector<double>(N_cols, 0);
 
    for(int i = 0; i < N_rows; i++){
       A[i] = vector<double>(N_cols, 0);

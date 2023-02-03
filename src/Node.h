@@ -105,13 +105,13 @@ class Node
          else
             return "Unknown";
       }
-
-      bool valid(const Scene &route) const
+      // Use this tho check 
+      bool valid(const Scene &temp_scene) const
       {
-         for (int i = 0; i + 1 < route.weapon_indices.size(); ++i)
+         for (int i = 0; i < temp_scene.weapon_indices.size(); ++i)
          {
-            int a = route.weapon_indices[i], b = route.weapon_indices[i + 1];
-            if (forbidden[a][b]) {
+            int target_id = temp_scene.target_index, weapon_id = temp_scene.weapon_indices[i];
+            if (forbidden[target_id][weapon_id]) {
                 return false;
             }
         }
@@ -124,6 +124,9 @@ class Node
 
       int lbNumVehicle;
       int ubNumVehicle;
+
+      // Use this to checkout weather a weapon could attack a target
+      // forbiddeb[target][weapon] == 0 means weapon could not reach target
       std::vector<std::vector<bool>> forbidden;
 
       NodeStatus status;

@@ -22,10 +22,10 @@ public:
    double*           rhs;
    vector<double>    cost;
    vector<double>    lb;
-   vector<double>    up;
+   vector<double>    ub;
 
    vector<double>    opt_sol;
-   double*           opt_dual_sol;
+   double*           opt_dual_sol; // m + n, two parts
    double            opt_value;
 
    int               LP_STATE;
@@ -34,7 +34,9 @@ public:
    LP_ALL_IN_ONE(int _N_rows, int _N_cols);
 
    void INITIALIZE_LP_BY_MASTER(){}
-   void SOLVE_LP(){}
+   void SOLVE_LP(){printf("Now solve LP \n"); }
+   // Update LP Info after add a new column
+   void ADD_NEW_COLUMN(Scene& temp_scene, int temp_scene_id){printf("scene %d has been added \n", temp_scene_id);}
    double* GET_DUAL_VALUE();
 
    ~LP_ALL_IN_ONE();
@@ -47,9 +49,7 @@ class Master {
       Master();
       Master(WTA* wta, const AlgoParameter &param);
 
-      ~Master()
-      {      }
-
+      ~Master(){}
 
       void Set(const Node &node);
       bool Solve();
