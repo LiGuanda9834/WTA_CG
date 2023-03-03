@@ -1,7 +1,19 @@
 # ----- 项目基本信息 -----
 NAME 			= WTA_CG
 CXX 			= g++
-CFLAGS 			= -O2 -pipe
+CFLAGS 			= -O2 -pipe -g
+
+# ------ 用于CPLEX的接口
+CPLEXLIBDIR   = cplex/lib/
+
+CCLNDIRS  = -L$(CPLEXLIBDIR) -L$(CONCERTLIBDIR)
+CLNDIRS   = -I$(CPLEXINCDIR) -L$(CPLEXLIBDIR)
+CCLNFLAGS = -lconcert -lilocplex -lcplex -lm -lpthread -ldl -lhighs
+CLNFLAGS  = -lcplex -lm -lpthread -ldl -lhighs
+
+CPLEXINCDIR   = cplex/include
+
+
 
 
 # ----- 给出一些内容的路径 -----
@@ -67,10 +79,10 @@ BINFILE 		= $(BINDIR)/$(NAME)
 # 我还不了解库的含义，目前尚未加入库文件
 all:$(LIBDIR) $(BINDIR) $(OBJDIR) $(LIBOBJDIR) $(BINOBJDIR) $(BINFILE)
 	@-$(MAKE) $(LIBDIR) $(BINDIR) $(OBJDIR) $(LIBOBJDIR) $(BINOBJDIR)
-
+	
 # 生成二进制文件：依赖于全部的OBJ文件与.h文件
 $(BINFILE):$(LIBOBJFILES) $(MAINOBJFILES) $(LIBSRCHEADER)
-	g++ $(LIBOBJFILES) $(LPIOBJFILE) $(MAINOBJFILES) -o $@
+	g++ $(LIBOBJFILES) $(LPIOBJFILE) $(MAINOBJFILES) -o $@ $(CLNFLAGS)
 
 # 确保所有的文件路径都已经存在
 $(LIBDIR):
@@ -85,10 +97,10 @@ $(BINOBJDIR):
 	@-mkdir -p $(BINOBJDIR)
 
 # 编译.cpp文件为.o文件，包括 main 与其他 src
-$(LIBOBJDIR)/%.o:$(SRCDIR)/%.cpp
-	$(CXX) -c $(CFLAGS)  $< -o $@
+$(LIBOBJDIR)/%.o:$(SRCDIR)/%.cpp 
+	$(CXX) -c $(CFLAGS)  $< -o $@ $(CLNFLAGS)
 $(MAINOBJFILES):$(MAINSRC) 
-	$(CXX) -c $(CFLAGS)  $< -o $@
+	$(CXX) -c $(CFLAGS)  $< -o $@ $(CLNFLAGS)
 
 #clean
 .PHONY:clean

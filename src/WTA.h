@@ -32,20 +32,30 @@ public:
     // V = V[t]
     double*     target_value;
     int         DEBUG_MODE; //
+
+    // Random seed
+    int         seed;
 public:
-    WTA();
+    WTA() = default;
     WTA(int n_, int m_, int seed);
-    ~WTA();
+    WTA(int n_, int m_);
+    ~WTA() = default;
+
+
+    void Delete();
 
     // Initialize the WTA by Random Generator or ReadFile
     void Init(int n_, int m_, int seed);
     void Init_sparse(int n_, int m_, int sparsity, int seed);
+    void Init_readfile(FILE* fin, int seed_);
+
+    double cal_target_value(Scene temp_scene);
 
     // calculate the x_is, q_js
     double cal_linear_coef(int _j, vector<int> _scene);
     bool is_weapon_in_scene(int _i, vector<int> _scene);
     
-
+    
     double set_scene_qjs(Scene& scene);
 
     // print the prob matrix and value of the WTA

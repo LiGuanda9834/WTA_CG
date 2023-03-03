@@ -3,6 +3,7 @@
 
 #include "WTA.h"
 #include "Node.h"
+#include "AlgorithmParameter.h"
 
 
 /**
@@ -33,9 +34,10 @@ public:
 class Pricing {
 public:
    Pricing();
-   Pricing(WTA* _wta);
-   ~Pricing() = default;
+   Pricing(WTA* _wta, AlgoParameter _parameter);
+   ~Pricing();
 
+   
    void Set(Node &node);
    void Solve(vector<double> &dual);
    // void extend(const Label &parent);
@@ -43,6 +45,8 @@ public:
 
 public:
    WTA* wta;
+   double* dual_value;
+   AlgoParameter parameter;
 
 /**
  * @category 1 : initalize, find a feasible solution

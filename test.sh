@@ -1,1 +1,4 @@
-valgrind --tool=memcheck --leak-check=yes ./bin/WTA_CG > ./valgrind_report.log
+make clean
+make -j
+valgrind --log-file="./log/valgrind_report.log" --tool=memcheck --leak-check=yes --track-origins=yes ./bin/WTA_CG  
+

@@ -108,7 +108,7 @@
 
 #define WTA_EPS (1e-6)
 
-class WTA
+class WTA_OA
 {
    public:
       int n;
@@ -123,7 +123,7 @@ class WTA
       // 0 for exponential form, 1 for polynominal form
       int function_form;
       int seed;
-      WTA(){};
+      WTA_OA(){};
       void Init(int n_, int m_, int seed = 0)
       {
          n = n_;
@@ -224,7 +224,7 @@ class WTA
          delete []cutind;
          delete []cutval;
       }
-      ~WTA(){}
+      ~WTA_OA(){}
 
       double cal_fjx_(int j)
       {
@@ -370,8 +370,8 @@ benders_callback  (CPXCENVptr env, void *cbdata, int wherefrom,
       void *cbhandle, int *useraction_p);
 
 static int
-set_benders_callback  (CPXENVptr env, WTA* wta),
-                      create_master_ILP     (CPXENVptr env, CPXLPptr lp, WTA& wta),
+set_benders_callback  (CPXENVptr env, WTA_OA* wta),
+                      create_master_ILP     (CPXENVptr env, CPXLPptr lp, WTA_OA& wta),
                       init_user_cbhandle    (USER_CBHANDLE *user_cbhandle, int num_nodes, 
                             int separate_fractional_solutions),
                       free_user_cbhandle    (USER_CBHANDLE *user_cbhandle);
@@ -417,7 +417,7 @@ wherefrom == CPX_CALLBACK_MIP_CUT_FEAS ) */
    int separate_fractional_solutions; 
 
    /* Cut callback data structure */
-   WTA wta;
+   WTA_OA wta;
 
    if ( argc > 7 || argc < 2) {
       usage (argv[0]);
@@ -927,7 +927,7 @@ TERMINATE:
    as user cutting planes, with CPXsetusercutcallbackfunc. */
 
 static int 
-set_benders_callback  (CPXENVptr env, WTA *wta)
+set_benders_callback  (CPXENVptr env, WTA_OA *wta)
 {
    int status = 0;
 
@@ -1040,7 +1040,7 @@ benders_callback  (CPXCENVptr env, void *cbdata, int wherefrom,
 {
    int status = 0;
    int do_separate = 0;
-   WTA* wta = (WTA*) cbhandle;
+   WTA_OA* wta = (WTA_OA*) cbhandle;
    int m = wta->m;
    int n = wta->n;
    int i, j, nzcnt;
@@ -1224,7 +1224,7 @@ TERMINATE:
    forall (i,j) in A: x(i,j) in {0, 1} */
 
 static int
-create_master_ILP   (CPXENVptr env, CPXLPptr lp, WTA& wta)
+create_master_ILP   (CPXENVptr env, CPXLPptr lp, WTA_OA& wta)
 {
    int i, j;
    int status = 0;
@@ -1336,7 +1336,7 @@ TERMINATE:
 /* This routine read an array of doubles from an input file  */
 
 static int
-read_file (FILE *in, WTA& wta)
+read_file (FILE *in, WTA_OA& wta)
 {
    int  status = 0;
    char ch;

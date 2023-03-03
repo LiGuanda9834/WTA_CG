@@ -23,8 +23,12 @@ class Scene{
    public:
       Scene() = default;
       Scene(int _j, std::vector<int> _scene);
+
+      void Set_Scene(int _j, std::vector<int> _scene);
+      
       ~Scene() = default;
       
+      bool is_same_w_t(Scene compare_scene);
 
       inline bool emptyScene() const
       {
@@ -48,7 +52,7 @@ public:
 
 
    // @todo print scenes by target
-   void print_scene_by_target(){}
+   void print_scene_by_target(int target_num);
 };
 
 #endif //ORA_PATH_H

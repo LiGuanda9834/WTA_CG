@@ -3,5 +3,12 @@ g++ -c -O2 -pipe  src/SubProblem.cpp -o OBJ/lib/SubProblem.o
 g++ -c -O2 -pipe  src/Pricing.cpp -o OBJ/lib/Pricing.o
 g++ -c -O2 -pipe  src/Master.cpp -o OBJ/lib/Master.o
 g++ -c -O2 -pipe  src/BranchAndCut.cpp -o OBJ/lib/BranchAndCut.o
+g++ -c -O2 -pipe  src/Scene.cpp -o OBJ/lib/Scene.o
 g++ -c -O2 -pipe  src/mainWTA.cpp -o OBJ/bin/mainWTA.o
-g++ OBJ/lib/WTA.o OBJ/lib/SubProblem.o OBJ/lib/Pricing.o OBJ/lib/Master.o OBJ/lib/BranchAndCut.o  OBJ/bin/mainWTA.o -o bin/WTA_CG
+g++ OBJ/lib/WTA.o OBJ/lib/SubProblem.o OBJ/lib/Pricing.o OBJ/lib/Master.o OBJ/lib/BranchAndCut.o OBJ/lib/Scene.o  OBJ/bin/mainWTA.o -o bin/WTA_CG
+make[1]: Entering directory `/share/home/liguanda/WTA-Problem/Code/column_generation/Column_generation_structure'
+make[1]: `bin' is up to date.
+make[1]: `OBJ' is up to date.
+make[1]: `OBJ/lib' is up to date.
+make[1]: `OBJ/bin' is up to date.
+make[1]: Leaving directory `/share/home/liguanda/WTA-Problem/Code/column_generation/Column_generation_structure'

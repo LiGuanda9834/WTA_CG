@@ -86,7 +86,7 @@ class BranchAndCut
       Pricing pricing;
       Tree tree;
 
-      // @todo Current dual sol?
+      // @todo Current dual sol
       vector<double> dual; 
 
       /* index, edges, order of edges */
@@ -105,7 +105,6 @@ class BranchAndCut
       double timeOnHeur;
 
    private:
-      
       compute::Timer timer;
       double rootUb;
       double rootLb;

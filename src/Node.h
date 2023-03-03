@@ -9,6 +9,8 @@ enum NodeStatus {
     Unsolved, Infeasible, PrunedByBound, Fractional, Integral
 };
 
+// This class to take down a spcific lp solution. 
+// Still need to update to the WTA form
 class LpSol : public std::vector<std::pair<Scene *, double>>
 {
    public:
@@ -16,7 +18,7 @@ class LpSol : public std::vector<std::pair<Scene *, double>>
 
    public:
       LpSol() = default;
-      ~LpSol() = default;
+      ~LpSol(){};
 
       double accumulate()
       {
@@ -87,6 +89,7 @@ class Node
          if (lpsol != nullptr)
          {
             delete lpsol;
+            lpsol = NULL;
          }
       }
 

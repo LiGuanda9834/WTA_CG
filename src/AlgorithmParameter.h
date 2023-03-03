@@ -37,6 +37,7 @@ public:
     double optimalityGap = 1.0e-6;
 
 public:
+   AlgoParameter(){}
     AlgoParameter(std::string _prob, std::string _algo, int _tlim, std::string _prefix, std::string _ext,
                     std::string _data,
                     bool _rootOnly, bool _enableCuts, bool _depthFirst,
